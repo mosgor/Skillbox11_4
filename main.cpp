@@ -33,8 +33,10 @@ char row_winner(std::string row){
 char diagonal_winner(std::string first_row, std::string second_row, std::string third_row){
     if ((get_element(first_row, second_row, third_row, 1, 1) == get_element(first_row, second_row, third_row, 3, 3)
         || get_element(first_row, second_row, third_row, 1, 3) == get_element(first_row, second_row, third_row, 3, 1))
-        && (get_element(first_row, second_row, third_row, 2, 2) == get_element(first_row, second_row, third_row, 3, 3))
-        || get_element(first_row, second_row, third_row, 2, 2) == get_element(first_row, second_row, third_row, 1, 3)){
+        && ((get_element(first_row, second_row, third_row, 2, 2) == get_element(first_row, second_row, third_row, 3, 3))
+        && get_element(first_row, second_row, third_row, 2, 2) == get_element(first_row, second_row, third_row, 1, 1))
+        || (get_element(first_row, second_row, third_row, 2, 2) == get_element(first_row, second_row, third_row, 1, 3)
+        && (get_element(first_row, second_row, third_row, 2, 2) == get_element(first_row, second_row, third_row, 3, 1)))){
         if (get_element(first_row, second_row, third_row, 2, 2) == 'X') return 'X';
         else if (get_element(first_row, second_row, third_row, 2, 2) == 'O') return 'O';
     }
@@ -58,7 +60,8 @@ int wins_count(std::string first_row, std::string second_row, std::string third_
     if (row_winner(first_row) == letter || row_winner(second_row) == letter || row_winner(third_row) == letter
         || diagonal_winner(first_row, second_row, third_row) == letter) wins++;
     for (int i = 1; i <= 3; ++i) {
-        if (column_winner(first_row, second_row, third_row, i) == letter) wins++;
+        if (column_winner(first_row, second_row, third_row, i) == letter && row_winner(first_row) != letter
+            && row_winner(second_row) != letter && row_winner(third_row) != letter) wins++;
     }
     return wins;
 }
